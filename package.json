@@ -1,0 +1,19 @@
+{
+  "name": "create-next-example-app",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mysql2": "^1.6.5",
+    "next": "8.0.3",
+    "path-match": "^1.2.4",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
+    "sequelize": "^4.42.0"
+  }
+}
