@@ -1,0 +1,15 @@
+<div class="float-right">
+
+    <button type="button" class="btn btn-danger bmd-btn-fab"  id="fab" >
+       <i class="material-icons"><%= icon %></i>
+    </button>
+    
+  </div>
+  <script>
+     const url='<%= url %>';
+     const fab=document.getElementById('fab');
+
+     fab.addEventListener('click',()=>{
+        document.location.href=url;
+     })
+  </script>

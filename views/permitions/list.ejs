@@ -1,0 +1,32 @@
+<%- contentFor('body') %>
+<div class="mt-5">
+   
+  <h2>Permissões</h2>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+       
+      </tr>
+    </thead>
+    <% for(permition  of permitions) {%>
+    <tbody>
+      <tr>
+      
+        <td><%= permition.setor %></td>
+        <td><%= permition.menu %></td>
+        <td>
+        
+        </td>
+       
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+    <div class="float-xl-right mt-5">
+        <%- include('../buttons/fab',{url:'/add/permition',icon:'add'}) %>
+    </div>
+</div>

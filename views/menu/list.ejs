@@ -1,0 +1,45 @@
+<%- contentFor('body') %>
+<div class="mt-5">
+   
+  <h2>Menu</h2>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+       
+      </tr>
+    </thead>
+    <% for(menu of menus) {%>
+    <tbody>
+      <tr>
+      
+        <td><%= menu.title %></td>
+        <td><%= menu.image %></td>
+        <td>
+         <div>
+              
+                   <button type="button" class="btn btn-danger bmd-btn-fab-sm" id="delete">
+                     <i class="material-icons">delete</i>
+                  </button>
+              
+           
+                  <button type="button" class="btn btn-danger bmd-btn-fab-sm" id="edit">
+                    <i class="material-icons">edit</i>
+                 </button>
+           
+
+          </div>
+        </td>
+        <td ><input type="hidden" <$= user.id %></id></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+    <div class="float-xl-right mt-5">
+      
+        <%- include('../buttons/fab',{url:'/add/menu',icon:'add'}) %>
+    </div>
+</div>

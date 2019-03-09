@@ -1,19 +1,19 @@
 {
-  "name": "create-next-example-app",
+  "name": "bar",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "nodemon server.js",
-    "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "express-ejs-layouts": "^2.5.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
     "mysql2": "^1.6.5",
-    "next": "8.0.3",
-    "path-match": "^1.2.4",
-    "react": "16.8.3",
-    "react-dom": "16.8.3",
-    "sequelize": "^4.42.0"
+    "sequelize": "^4.43.0"
   }
 }
