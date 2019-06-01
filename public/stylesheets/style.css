@@ -1,8 +1,8 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.icon{
+  margin-top:3em;
+  text-align: center;
 }
-
-a {
-  color: #00B7FF;
+.icon img{
+  height: 64px;
+  width: 64px;
 }

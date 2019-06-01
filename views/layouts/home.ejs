@@ -1,0 +1,11 @@
+<%- contentFor('body') %>
+<div class="row">
+        <% for(m of menus) { %>
+            <div class="icon col">
+                <a href="<%- m.link %>">
+                    <img src="<%- m.image %>">
+                    <h5><%- m.title %></h5>
+                </a>
+            </div>
+            <% } %>
+    </div>
