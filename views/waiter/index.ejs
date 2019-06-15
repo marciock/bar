@@ -1,62 +1,93 @@
 <%- contentFor('body') %>
 
-<h4>Atendimento</h4>
+
+
 <div class="row">
-  <div class="col">
-  
+  <div class="col s8">
+    <div class="col s6">
+        <h5>Mesa: <span id="mesa"></span></h5>
+    </div>  
+    <div class="col s6">
+        <h5>Comanda: <span id="comanda"></span></h5>
+    </div> 
+    <div class="col s8">
+        <h5>Pedidos:</h5>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+        
+    </div>  
+    <div class="col s8"><h5>Total:<span id="total"></span></h5></div>
+    
+    
   </div>
 
-  <div class="fixed-bottom">
-    <button type="button" class="btn btn-primary bmd-btn-fab" id="btnCamera">
+  <div class="fixed-action-btn">
+    <button type="button" data-target="modal1" class="btn-floating btn-large red modal-trigger" id="btnCamera" >
       <i class="material-icons">camera</i>
     </button>
   </div>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <video muted  id="qr-video"></video>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+
+      <video muted  id="qr-video" class="responsive-video"></video>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
 
-  
+
 </div>
 
+  
 
 <script type="module">
 import QrScanner from './javascripts/qr-scanner.min.js';
 QrScanner.WORKER_PATH='./javascripts/qr-scanner-worker.min.js';
-const video=document.getElementById('qr-video');
 
+const video=document.getElementById('qr-video');
 const btnCamera=document.getElementById('btnCamera');
-  //QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+
+const options={opacity:0.5}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let elems = document.querySelectorAll('.modal');
+    let instances = M.Modal.init(elems, options);
+
+    let sideb=document.querySelectorAll('.sidenav');
+    let newside=M.Sidenav.init(sideb,{edge:'left'})
+
+  });
+
+//const mymodal=document.querySelector('#mymodal');
+
+ //QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
 
   //const scanner = new QrScanner(video, result => console.log('decoded qr code:', result));
- btnCamera.addEventListener('click',()=>{
+  btnCamera.addEventListener('click',()=>{
   
-    $('#mymodal').modal('show');
-
+   // $('#mymodal').modal('show');
+   
     const scanner = new QrScanner(video, result => {
         alert(result);
       });
-      
-     // scanner.start();
-  })
+    
+      scanner.start();
+ })
      
-      
-
 
 </script>
