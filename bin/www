@@ -39,6 +39,21 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// Init socket io websocket- 
+
+const io=require('socket.io')(server);
+const search=require('../lib/search');
+
+io.on('connection',socket=>{
+  socket.on('tables',data=>search(data,io,'outtable'));
+  socket.on('clients',data=>search(data,io,'outclient'));
+  socket.on('products',data=>search(data,io,'outproduct'));
+  
+})
+
+// search into data 
+
+
 /**
  * Normalize a port into a number, string, or false.
  */
