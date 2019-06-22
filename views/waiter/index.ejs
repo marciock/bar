@@ -5,10 +5,10 @@
 <div class="row">
   <div class="col s8">
     <div class="col s6">
-        <h5>Mesa: <span id="span-table"></span></h5>
+        <h5>Mesa: <span id="span-table" ></span></h5>
     </div>  
     <div class="col s6">
-        <h5>Comanda: <span id="span-client"></span></h5>
+        <h5>Comanda: <span id="span-client" ></span></h5>
     </div> 
     <div class="col s12">
         <h5>Pedidos:</h5>
@@ -19,7 +19,7 @@
               <th>Valor</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="itens">
 
           </tbody>
         </table>
@@ -30,18 +30,26 @@
     
   </div>
 
-  <div class="fixed-action-btn">
-    <button type="button" data-target="modaltables" class="btn-floating btn-large red modal-trigger" id="btnTable">
-      <img src="images/table.svg" class="responsive-img">
-    </button> 
-    <button type="button" data-target="modalclients" class="btn-floating btn-large red modal-trigger" id="btnClient" >
-      <img src="images/note.svg" class="responsive-img">
-    </button> 
-    <button type="button" data-target="modalmenus" class="btn-floating btn-large red modal-trigger" id="btnMenu" >
-      <img src="images/menu.svg" class="responsive-img">
-    </button> 
+  <div class="col s6 m3">
+    
+      <button type="button"  class="btn-floating btn-large green" id="btncheck">
+       <i class="material-icons">check</i>
+      </button> 
+    
   </div>
-
+  <div class="col s6 m3">
+    <div class="fixed-action-btn">
+      <button type="button" data-target="modaltables" class="btn-floating btn-large red modal-trigger" id="btnTable">
+        <img src="images/icons/table.svg" class="responsive-img">
+      </button> 
+      <button type="button" data-target="modalclients" class="btn-floating btn-large red modal-trigger" id="btnClient" >
+        <img src="images/icons/note.svg" class="responsive-img">
+      </button> 
+      <button type="button" data-target="modalmenus" class="btn-floating btn-large red modal-trigger" id="btnMenu" >
+        <img src="images/icons/menu.svg" class="responsive-img">
+      </button> 
+    </div>
+</div>
 
   <%- include modal-tables %>
   <%- include modal-clients %>
@@ -51,150 +59,140 @@
 </div>
 
   
-
+<script src="javascripts/fetchcustom.js"></script>
 <script src="socket.io/socket.io.js"></script>
-<script type="module">
-import QrScanner from './javascripts/qr-scanner.min.js';
-QrScanner.WORKER_PATH='./javascripts/qr-scanner-worker.min.js';
 
-const qrTables=document.getElementById('qr-tables');
-const qrClients=document.getElementById('qr-clients');
-const qrProducts=document.getElementById('qr-products');
-const btnTable=document.getElementById('btnTable');
-const btnClient=document.getElementById('btnClient');
-const btnMenu=document.getElementById('btnMenu');
+<script>
+
+const spanTable=document.getElementById('span-table');
+const spanClient=document.getElementById('span-client');
+
+const tableOK=document.getElementById('tableok');
+const clientOk=document.getElementById('clientok');
+const menuOK=document.getElementById('menuok');
+const btnCheck=document.getElementById('btncheck');
 const options={opacity:0.5}
 
 const resultClient=document.getElementById('result-client');
 const resultTable=document.getElementById('result-table');
 const resultProduct=document.getElementById('result-product');
+//const spanTable=document.getElementById('span-table');
 
+let myProducts=[];
+let myTable;
+let myClient;
+
+ // clientOk.disabled=true;
+ // tableOk.disabled=true;
+//  menuOk.disabled=true;
+  btnCheck.disabled=true;
 
 window.onload=()=>{
 
   let elems = document.querySelectorAll('.modal');
 
   let instances = M.Modal.init(elems, options);
+  let instance=M.Modal.getInstance(elems);
 
   let sideb=document.querySelectorAll('.sidenav');
   let newside=M.Sidenav.init(sideb,{edge:'left'})
-  let myTable='';
-  let myClient='';
-
-    const socket=io('https://192.168.1.6:3000');
-
-  //socket recive
-  socket.on('outtable',data=>{
-            const spanTable=document.getElementById('span-table');
-           // alert(data);
-             spanTable.innerHTML=`<p class="flow-text">${data}</p>`;
-   
-      });
-
-
-
-  socket.on('outclient',data=>{
-              const spanClient=document.getElementById('span-client');
-           //   alert(data);
-              spanClient.innerHTML=`<p class="flow-text">${data}</p>`;
-    
-    });
-  socket.on('outproduct',data=>{
-
-      const tBody=document.querySelector('tbody');
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${data.product}</td><td>${data.price}</td>`;
-      tBody.appendChild(tr);
-          
-    });
   
+  
+    tableOK.addEventListener('click',()=>{
 
-      //const scanner = new QrScanner(video, result => console.log('decoded qr code:', result));
-  btnTable.addEventListener('click',()=>{
-
-
-    const scanner = new QrScanner(qrTables, result => {
-
+      const result=document.getElementById('tablesinput').value;
+      
+       
+      // create object of fetch data
       let data={
         db:'tables',
         code:result
       }
-      myTable=result;  
-     socket.emit('tables',data);
-    
-     resultTable.innerHTML=`<p class="flow-text">${result}</p>`;
-    
-     scanner.stop();
+
+    fetchGarcon('/search',data,'span-table');
       
-      });
-
-     scanner.start();
-
-   })
-
-   btnClient.addEventListener('click',()=>{
-    const scanner = new QrScanner(qrClients, result => {
-
-    //  console.log(`clientes - ${result}`);
-      myClient=result;
-      let data={
-        db:'clients',
-        code:result
-      }
-
-     socket.emit('clients',data);
-     resultClient.innerHTML=`<p class="flow-text">${result}</p>`;
+      myTable=result;
         
-     scanner.stop();
-      
-      });
+   });
 
-     scanner.start();
-   })
 
-   btnMenu.addEventListener('click',()=>{
-    const scanner = new QrScanner(qrProducts, result => {
+   
+   clientOk.addEventListener('click',()=>{
+    const result=document.getElementById('clientinput').value;
 
-   //   console.log(`product - ${result}`);
-    //  myClient=result;
 
-    console.log(result);
-      let data=
-      {
+     let data={
+       db:'clients',
+       code:result
+     }
+
+     fetchGarcon('/search',data,'span-client');
+     myClient=result;  
+
+
+     console.log(myTable);
+     if(myTable!=undefined && myClient!=undefined){
+      btnCheck.disabled=false;
+     }
+     
+
+    
+   });
+
+   menuOK.addEventListener('click',()=>{
+    const result=document.getElementById('menuinput').value;
+
+    const tableName=spanTable.dataset.name;
+    const clientName=spanClient.dataset.name;
+
+   
+      let data={
         db:'products',
         code:result,
-        table:myTable,
-        client:myClient
       }
+     
+      fetchItens('/search',data,'itens')
 
-     socket.emit('products',data);
-     resultProduct.innerHTML=`<p class="flow-text">${result}</p>`;
-     scanner.stop();
+      let dataProd={
+        db:'dash',
+        code:result,
+        tables_id: myTable,
+        tables_name: tableName,          
+        clients_id:myClient,
+        clients_name:clientName
+        }
+      myProducts.push(dataProd);
+    //  console.log(myProducts)
+
+    document.getElementById('menuinput').value="";
       
-    });
-
-     scanner.start();
    })
-    
+
+
     
 }
 
+  btnCheck.addEventListener('click',()=>{
 
-//document.addEventListener('DOMContentLoaded', function() {
+    let data=myProducts;
+    const socket=io(`https://192.168.1.108:3000`);
 
-   
+
+    socket.emit('tables',data);
+
+
+    data.forEach((f)=>{
+      console.log(`evento check - ${f}`);
+    })
     
    
-    
+   // btnCheck.setAttribute('disabled','true');
+  })
 
 
- // });
-
-
-//const mymodal=document.querySelector('#mymodal');
-
- //QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
 
  
+
+   
 
 </script>

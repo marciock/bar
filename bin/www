@@ -9,6 +9,7 @@ const debug = require('debug')('bar:server');
 //const http = require('http');
 const https = require('https');
 const fs=require('fs');
+//const ip=require('ip');
 
 /**
  * Get port from environment and store in Express.
@@ -44,14 +45,17 @@ server.on('listening', onListening);
 const io=require('socket.io')(server);
 const search=require('../lib/search');
 
+
 io.on('connection',socket=>{
-  socket.on('tables',data=>search(data,io,'outtable'));
-  socket.on('clients',data=>search(data,io,'outclient'));
-  socket.on('products',data=>search(data,io,'outproduct'));
-  
+  socket.on('tables',data=>{search(data,io,'outproduct');
+
+    
+  });
+
+   
 })
 
-// search into data 
+
 
 
 /**

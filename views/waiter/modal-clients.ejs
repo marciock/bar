@@ -4,10 +4,30 @@
       <h4>Comanda</h4>
       <p>Selecione a Comanda</p>
 
-      <video muted  id="qr-clients" class="responsive-video"></video>
-      <div id="result-client"></div>
+      <div class="input-field col s6 m4">
+          <input placeholder="Comanda" id="clientinput" type="number" class="validate " autofocus \>
+          <label for="tables">Comanda</label>
+      </div>
     </div>
     <div class="modal-footer">
-     <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        <button class="modal-close waves-effect waves-green btn-flat" id="clientcancel">Cancelar</button>
+        <button class="modal-close waves-effect waves-green btn-flat" id="clientok">OK</button>
     </div>
   </div>
+  <script>
+      const clientCancel=document.getElementById('clientcancel');
+     
+
+      document.getElementById('clientinput').focus()
+
+       clientCancel.addEventListener('click',()=>{
+          const clientInput=document.getElementById('clientinput');
+         // console.log(tablesinput)
+          clientInput.value=null;
+         
+          
+        })
+
+
+
+    </script>

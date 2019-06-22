@@ -4,10 +4,25 @@
       <h4>Cardápio</h4>
       <p>Selecione o Produto</p>
 
-      <video muted  id="qr-products" class="responsive-video"></video>
-      <div id="result-product"></div>
+      <div class="input-field col s6 m4">
+          <input placeholder="Itens" id="menuinput" type="number" class="validate" autofocus \>
+          <label for="menuinput">Itens do Cardápio</label>
+      </div>
     </div>
     <div class="modal-footer">
-     <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        <button class="modal-close waves-effect waves-green btn-flat" id="menucancel">Cancelar</button>
+        <button class="modal-close waves-effect waves-green btn-flat" id="menuok" >OK</button>
     </div>
   </div>
+  <script>
+      const menuCancel=document.getElementById('menucancel');
+      
+       menuCancel.addEventListener('click',()=>{
+          const menuInput=document.getElementById('menuinput');
+         // console.log(tablesinput)
+          menuInput.value=null;
+          
+        })
+
+
+    </script>

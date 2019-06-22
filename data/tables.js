@@ -13,7 +13,7 @@ const tables=[
     },
     {
         id:'3',
-        name:'Mesa 2',
+        name:'Mesa 3',
         amount:'6',
         qrcode:'00000003'
     },

@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const menuhome=require('../lib/menuhome');
+const table=require('../../data/tables');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
- // console.log(menuhome)
-  res.render('layouts/home',{menus:menuhome});
+ 
+    //console.log(tables);
+  res.render('tables/index',{tables:table});
 });
 
 module.exports = router;

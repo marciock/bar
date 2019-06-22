@@ -4,10 +4,25 @@
       <h4>Mesa</h4>
       <p>Escolha a mesa</p>
 
-      <video muted  id="qr-tables" class="responsive-video"></video>
+      <div class="input-field col s6 m4">
+          <input placeholder="Mesa" id="tablesinput" type="number" class="validate" autofocus \>
+          <label for="tables">Mesa</label>
+      </div>
+
       <div id="result-table"></div>
     </div>
     <div class="modal-footer">
-     <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+     <button class="modal-close waves-effect waves-green btn-flat" id="tablescancel">Cancelar</button>
+     <button class="modal-close waves-effect waves-green btn-flat" id="tableok">OK</button>
     </div>
   </div>
+<script>
+  const tablesCancel=document.getElementById('tablescancel');
+   tablesCancel.addEventListener('click',()=>{
+      const tablesinput=document.getElementById('tablesinput');
+     // console.log(tablesinput)
+      tablesinput.value=null;
+      
+    })
+</script>
+  

@@ -2,11 +2,15 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+//const bodyParser=require('body-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const waiterRouter = require('./routes/waiter/index');
+const waiterLoginRouter = require('./routes/waiter/login');
+const tablesRouter = require('./routes/tables/index');
+const searchRouter = require('./routes/waiter/search');
 
 const expressLayouts = require('express-ejs-layouts');
 
@@ -19,15 +23,19 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 
+
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/waiter', waiterRouter);
+app.use('/login', waiterLoginRouter);
+app.use('/tables', tablesRouter);
+app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
