@@ -44,13 +44,15 @@ server.on('listening', onListening);
 
 const io=require('socket.io')(server);
 const search=require('../lib/search');
-
+let myData=[]
 
 io.on('connection',socket=>{
   socket.on('tables',data=>{search(data,io,'outproduct');
 
+      myData.push(data);
     
   });
+  
 
    
 })
