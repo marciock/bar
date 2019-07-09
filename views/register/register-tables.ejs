@@ -1,0 +1,147 @@
+<%- contentFor('body') %>
+<div class="row">
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Mesa</th>
+        <th>Codigo</th>
+        <th> </th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody id="t-body">
+     <% for(db of data){ %> 
+      <tr>
+      <td><%- db.name %></td>        
+      <td><%- db.code %></td>        
+      <td><button type="button"  data-target="modal-forms" class="waves-effect weaves-teal btn-floating btn-small green modal-trigger" data-edit="<%- db._id %>"><i class="material-icons">edit</i></button></td>        
+      <td><button type="button" data-target="modal-forms" class="waves-effect weaves-teal btn-floating  btn-small orange modal-trigger" data-delete="<%- db._id %>"><i class="material-icons">delete</i></button></td>        
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+
+</div>
+<div class="col s6 m3">
+    <div class="fixed-action-btn">
+      <button type="button" data-target="modal-forms" class="btn-floating btn-large red modal-trigger" id="btn-add">
+        <i class="material-icons">add</i>
+      </button> 
+</div>
+<% include modal-forms %>
+<script src="javascripts/fetchcustom.js"></script>
+
+<script>
+
+const btnAdd=document.getElementById('btn-add');
+const modalTitle=document.getElementById('modal-title');
+const modalContent=document.getElementById('modal-content');
+const formTables=document.getElementById('form-tables');
+const btnEdit=document.querySelectorAll('[data-edit]');
+const btnDelete=document.querySelectorAll('[data-delete]');
+
+window.onload=()=>{
+
+  const modals=document.querySelectorAll('.modal');
+ // const instanceModals=M.Modal.init(modals,{});
+
+ 
+
+  btnEdit.forEach((f)=>{
+
+
+    f.addEventListener('click',()=>{
+      const instanceModals=M.Modal.init(modals,{});
+
+
+
+    fetchGetTables(`/get_tables/?id=${f.dataset.edit}`,modalContent);
+
+
+    formTables.setAttribute('action','/update_tables');
+
+     modalTitle.innerText='Atualizar Mesa';
+   // modalContent.innerHTML=content;
+   
+
+   
+    })
+     
+  })
+
+  btnDelete.forEach((f)=>{
+    f.addEventListener('click',()=>{
+     
+    const instanceModals=M.Modal.init(modals,{});
+
+    let ok=document.getElementById('ok');
+    let cancel=document.getElementById('cancel');
+
+
+    ok.innerText='Sim';
+    cancel.innerText='Não';
+    let title='Excluindo Mesa';
+    let content=`
+
+      <div style="margin-top:5em;">
+        <div class="col s6" >
+           <h4>Tem certeza que deseja excluir essa informação?</h4>
+        </div>
+        
+
+        <input type="hidden" id="id" name="id" value="${f.dataset.delete}">
+        <input type="hidden" id="active" name="active" value="false">
+        
+      </div>
+   
+    `;
+
+    formTables.setAttribute('action','/update_tables')
+
+    modalTitle.innerText=title;
+    modalContent.innerHTML=content;
+
+
+
+  })
+})
+  
+
+  btnAdd.addEventListener('click',()=>{
+    const instanceModals=M.Modal.init(modals,{});
+
+    let title='Nova Mesa';
+    let content=`
+
+      <div style="margin-top:5em;">
+        <div class="input-field col s6" >
+            <input type="text" palceholder="Nome da Mesa" id="name" name="name" >
+            <label for="name">Nome da Mesa</label>
+        </div>
+        <div class="input-field col s6" >
+            <input type="number" palceholder="Nome da Mesa" id="code" name="code" >
+            <label for="code">Código da Mesa</label>
+        </div>
+        
+      </div>
+   
+    `;
+
+    formTables.setAttribute('action','/new_tables')
+
+    modalTitle.innerText=title;
+    modalContent.innerHTML=content;
+
+
+
+  })
+
+}
+
+
+
+</script>
+
+

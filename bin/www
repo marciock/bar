@@ -36,6 +36,15 @@ const server =https.createServer(options, app);
  * Listen on provided port, on all network interfaces.
  */
 
+ /*
+  * Database mongoose lib
+ */
+const mongoose=require('mongoose');
+
+mongoose.connect('mongodb://localhost/bar',{ useNewUrlParser: true });
+
+const db=mongoose.connection;
+
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -43,22 +52,36 @@ server.on('listening', onListening);
 // Init socket io websocket- 
 
 const io=require('socket.io')(server);
-const search=require('../lib/search');
+//const search=require('../lib/search');
+//const mongoose=require('mongoose')
+const schemita=require('../models/cashiers')
+const Notes=mongoose.model('Notes');
+const Menus=mongoose.model('Menus');
 let myData=[]
 
 io.on('connection',socket=>{
-  socket.on('tables',data=>{search(data,io,'outproduct');
-
-      myData.push(data);
+ 
+  socket.on('tables',()=>{
+    schemita.find({},(err,cashie)=>{
+      Menus.populate(cashie,{path:'menus._id'},(err,cashie)=>{
+         // res.json(cashie);
+        
+      Notes.populate(cashie,{path:'notes'},(err,cashie)=>{
+          //res.json(cashie);
+          socket.emit('output',cashie);
+        })
+      })
+  
+  })
     
-  });
+
+  })
+
+  
   
 
    
 })
-
-
-
 
 /**
  * Normalize a port into a number, string, or false.

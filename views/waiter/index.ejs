@@ -8,7 +8,7 @@
         <h5>Mesa: <span id="span-table" ></span></h5>
     </div>  
     <div class="col s6">
-        <h5>Comanda: <span id="span-client" ></span></h5>
+        <h5>Comanda: <span id="span-note" ></span></h5>
     </div> 
     <div class="col s12">
         <h5>Pedidos:</h5>
@@ -39,21 +39,22 @@
   </div>
   <div class="col s6 m3">
     <div class="fixed-action-btn">
-      <button type="button" data-target="modaltables" class="btn-floating btn-large red modal-trigger" id="btnTable">
+      <button type="button" data-target="modal-tables" class="btn-floating btn-large red modal-trigger" id="btn-table">
         <img src="images/icons/table.svg" class="responsive-img">
       </button> 
-      <button type="button" data-target="modalclients" class="btn-floating btn-large red modal-trigger" id="btnClient" >
+      <button type="button" data-target="modal-notes" class="btn-floating btn-large red modal-trigger" id="btn-note" >
         <img src="images/icons/note.svg" class="responsive-img">
       </button> 
-      <button type="button" data-target="modalmenus" class="btn-floating btn-large red modal-trigger" id="btnMenu" >
+      <button type="button" data-target="modal-menus" class="btn-floating btn-large red modal-trigger" id="btn-menu" >
         <img src="images/icons/menu.svg" class="responsive-img">
       </button> 
     </div>
 </div>
 
+  <%- include modal-notes %>
   <%- include modal-tables %>
-  <%- include modal-clients %>
   <%- include modal-menus %>
+ 
 
 
 </div>
@@ -65,132 +66,140 @@
 <script>
 
 const spanTable=document.getElementById('span-table');
-const spanClient=document.getElementById('span-client');
+const spanNote=document.getElementById('span-note');
+//const itens=document.getElementById('itens');
 
-const tableOK=document.getElementById('tableok');
-const clientOk=document.getElementById('clientok');
-const menuOK=document.getElementById('menuok');
+//buttons
+
 const btnCheck=document.getElementById('btncheck');
+const btnTable=document.getElementById('btn-table');
+const btnNote=document.getElementById('btn-note');
+const btnMenu=document.getElementById('btn-menu');
+
+
+//modal notes ids
+const modalNotes=document.getElementById('modal-notes');
+const titleNote=document.getElementById('title-note');
+const comentNote=document.getElementById('coment-note');
+const content=document.getElementById('content-note');
+//const noteOK=document.getElementById('note-ok');
+
+// codes input
+
+
 const options={opacity:0.5}
 
-const resultClient=document.getElementById('result-client');
-const resultTable=document.getElementById('result-table');
-const resultProduct=document.getElementById('result-product');
-//const spanTable=document.getElementById('span-table');
 
-let myProducts=[];
-let myTable;
-let myClient;
 
- // clientOk.disabled=true;
- // tableOk.disabled=true;
-//  menuOk.disabled=true;
   btnCheck.disabled=true;
+  let myTable;
+  let myNote;
+  let myMenu=[];
+  let cashier;
+  let code;
+window.onload=()=> {
 
-window.onload=()=>{
-
-  let elems = document.querySelectorAll('.modal');
-
-  let instances = M.Modal.init(elems, options);
-  let instance=M.Modal.getInstance(elems);
-
+  
+  
+  const elemsModal = document.querySelectorAll('.modal');
+  
+ 
   let sideb=document.querySelectorAll('.sidenav');
   let newside=M.Sidenav.init(sideb,{edge:'left'})
   
+   btnTable.addEventListener('click',()=>{
+   let instances = M.Modal.init(elemsModal, options);
   
+    let tableOK=document.getElementById('table-ok');
+    let codeTable=document.getElementById('code-table');
+
     tableOK.addEventListener('click',()=>{
+       let url=`/search_tables/?code=${codeTable.value}`;
 
-      const result=document.getElementById('tablesinput').value;
-      
+      // myTable=codeTable.value;
+
+
+      // myTable=spanTable.textContent;
+       fetchTables(url,spanTable);  
        
-      // create object of fetch data
-      let data={
-        db:'tables',
-        code:result
-      }
-
-    fetchGarcon('/search',data,'span-table');
-      
-      myTable=result;
-        
-   });
-
-
-   
-   clientOk.addEventListener('click',()=>{
-    const result=document.getElementById('clientinput').value;
-
-
-     let data={
-       db:'clients',
-       code:result
-     }
-
-     fetchGarcon('/search',data,'span-client');
-     myClient=result;  
-
-
-     console.log(myTable);
-     if(myTable!=undefined && myClient!=undefined){
-      btnCheck.disabled=false;
-     }
-     
-
-    
-   });
-
-   menuOK.addEventListener('click',()=>{
-    const result=document.getElementById('menuinput').value;
-
-    const tableName=spanTable.dataset.name;
-    const clientName=spanClient.dataset.name;
-
-   
-      let data={
-        db:'products',
-        code:result,
-      }
-     
-      fetchItens('/search',data,'itens')
-
-      let dataProd={
-        db:'dash',
-        code:result,
-        tables_id: myTable,
-        tables_name: tableName,          
-        clients_id:myClient,
-        clients_name:clientName
-        }
-      myProducts.push(dataProd);
-    //  console.log(myProducts)
-
-    document.getElementById('menuinput').value="";
-      
+       codeTable.value=null;
+     })
    })
 
+   btnNote.addEventListener('click',()=>{
+    let instances = M.Modal.init(elemsModal, options);
 
+     let noteOK=document.getElementById('note-ok');
+     let codeNote=document.getElementById('code-note');
+
+     noteOK.addEventListener('click',()=>{
+
+       let url=`/search_notes/?code=${codeNote.value}`;
+     //  myNote=codeNote.value;  
+       fetchNotes(url,spanNote);
+
+        codeNote.value=null;
+      })
+
+   })
+
+   btnMenu.addEventListener('click',()=>{
+   let instance = M.Modal.init(elemsModal, options);
+  
+    let menuOK=document.getElementById('menu-ok');
+    let codeMenu=document.getElementById('code-menu');
+   
+    menuOK.addEventListener('click',()=>{
+     code=codeMenu.value;
+        let url=`/search_menus/?code=${code}`;
+
+       
+       fetchItensNotes(url,'itens');
+     
+      // document.getElementById('code-menu').value="";
+       if(myTable!==undefined && myNote!==undefined || myTable!==null &&  myNote!==null ){
+         console.log(myTable);
+         btnCheck.disabled=false;
+     }
+
+    if(myMenu !==''){
+      
+      let data={
+          table:myTable,
+          note:myNote,
+          menu:myMenu,
+        }
+
+        cashier=data;
+    }
+      
+     
+        
+       // console.log(cashier)
+      
+       codeMenu.value=null;
+     })
     
-}
+   })
 
   btnCheck.addEventListener('click',()=>{
 
-    let data=myProducts;
-    const socket=io(`https://192.168.1.108:3000`);
+  console.log(cashier)
+   // let data=myProducts;
 
+   fetchSaveNote('/save_cashiers',cashier);
 
-    socket.emit('tables',data);
+   const socket=io(`https://localhost:3000`);
 
-
-    data.forEach((f)=>{
-      console.log(`evento check - ${f}`);
-    })
-    
    
-   // btnCheck.setAttribute('disabled','true');
+    socket.emit('tables');
+    
+
+   
   })
 
 
-
+}
  
 
    

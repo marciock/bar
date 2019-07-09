@@ -1,0 +1,12 @@
+<%- contentFor('body') %>
+<div class="row">
+    <h5>Cadastro</h5>
+    <% for(m of menus) { %>
+        <div class="icon col s6 m3">
+            <a href="<%- m.link %>">
+                <img src="<%- m.image %>" class="responsive-img">
+                <p class="flow-text"><%- m.title %></p>
+            </a>
+        </div>
+        <% } %>
+</div>

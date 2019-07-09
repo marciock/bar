@@ -1,28 +1,22 @@
  <!-- Modal Structure -->
- <div id="modalmenus" class="modal modal-fixed-footer">
+ <div id="modal-menus" class="modal modal-fixed-footer">
     <div class="modal-content">
-      <h4>Cardápio</h4>
-      <p>Selecione o Produto</p>
-
-      <div class="input-field col s6 m4">
-          <input placeholder="Itens" id="menuinput" type="number" class="validate" autofocus \>
-          <label for="menuinput">Itens do Cardápio</label>
+      <h4 id="title-menu">Cardápio</h4>
+      <p id="coment-menu">Digite o código do Item</p>
+      <div id="content-menu">
+        
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="number" id="code-menu" name="code">
+          <label for="code-menu" class="active">Código</label>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
-        <button class="modal-close waves-effect waves-green btn-flat" id="menucancel">Cancelar</button>
-        <button class="modal-close waves-effect waves-green btn-flat" id="menuok" >OK</button>
+        <button class="modal-close waves-effect waves-green btn-flat" id="menu-cancel">Cancelar</button>
+        <button class="modal-close waves-effect waves-green btn-flat" id="menu-ok">OK</button>
+       
     </div>
   </div>
-  <script>
-      const menuCancel=document.getElementById('menucancel');
-      
-       menuCancel.addEventListener('click',()=>{
-          const menuInput=document.getElementById('menuinput');
-         // console.log(tablesinput)
-          menuInput.value=null;
-          
-        })
-
-
-    </script>
+  
