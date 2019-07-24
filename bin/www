@@ -68,9 +68,10 @@ io.on('connection',socket=>{
         
       Notes.populate(cashie,{path:'notes'},(err,cashie)=>{
           //res.json(cashie);
-          socket.emit('output',cashie);
+          socket.emit('output',{data:cashie});
         })
       })
+
   
   })
     
